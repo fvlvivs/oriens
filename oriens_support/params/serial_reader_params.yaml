@@ -1,0 +1,7 @@
+serial_reader:
+  ros__parameters:
+    port_name: "/dev/ttyACM0"
+    baud_rate: 500000
+    period: 5  # [ms]
+    topic_name: "raw_data"
+    sensor_type: "marg"
