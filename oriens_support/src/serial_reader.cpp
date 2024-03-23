@@ -29,8 +29,8 @@ SerialReader::SerialReader(const std::string &node_name, const rclcpp::NodeOptio
     this->declare_parameter<std::string>("port_name", "/dev/ttyACM0");
     this->declare_parameter<int>("baudrate", B500000);
     this->declare_parameter<int>("period", 5);
-    this->declare_parameter<std::string>("topic_name", "imu_data_raw");
-    this->declare_parameter<std::string>("sensor_type", "imu");
+    this->declare_parameter<std::string>("topic_name", "raw_data");
+    this->declare_parameter<std::string>("sensor_type", "marg");
 
     this->get_parameter("port_name", port_name_);
     this->get_parameter("baudrate", baudrate_);
@@ -110,10 +110,7 @@ void SerialReader::initAsMarg() {
     RCLCPP_INFO(this->get_logger(), "Initialized as MARG");
 }
 
-
-SerialReader::~SerialReader() {
-
-}
+SerialReader::~SerialReader() {}
 
 void SerialReader::timerCallback() {
     std::vector<double> data;
@@ -122,13 +119,12 @@ void SerialReader::timerCallback() {
         publishImuData(data);
     else if (sensor_type_ == "marg")
         publishMargData(data);
-
 }
 
 void SerialReader::publishImuData(const std::vector<double> &data) {
 
     if (data.size() != data_size_) {
-        // RCLCPP_ERROR(this->get_logger(), "Invalid data size");
+        RCLCPP_DEBUG_THROTTLE(this->get_logger(), *this->get_clock(), 1000, "Invalid data size");
         return;
     }
 
@@ -151,7 +147,7 @@ void SerialReader::publishImuData(const std::vector<double> &data) {
 void SerialReader::publishMargData(const std::vector<double> &data) {
 
     if (data.size() != data_size_) {
-        // RCLCPP_ERROR(this->get_logger(), "Invalid data size");
+        RCLCPP_DEBUG_THROTTLE(this->get_logger(), *this->get_clock(), 1000, "Invalid data size");
         return;
     }
     
