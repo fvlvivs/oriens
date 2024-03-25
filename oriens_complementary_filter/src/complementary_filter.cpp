@@ -45,6 +45,32 @@ ComplementaryFilter::ComplementaryFilter(const std::string &node_name,
 }
 
 void ComplementaryFilter::imuCallback(const sensor_msgs::msg::Imu::SharedPtr msg) {
+    updateSensors(msg);
+    updateSamplingTime(msg->header);
+
+    if (isSamplingTimeTooBig())
+        return;
+
+    Eigen::Vector3d gyro_angles = Eigen::Vector3d::Zero();
+    Eigen::Vector3d acc_angles = Eigen::Vector3d::Zero();
+    gyroscope_.getData(gyroscope_data_);
+    accelerometer_.getData(accelerometer_data_);
+
+
+    this->getOrientationFromGyroscope(gyroscope_data_, dt_, gyro_angles);
+    this->getOrientationFromAccelerometer(accelerometer_data_, acc_angles);
+
+    euler_angles_[0] = alpha_ * (euler_angles_[0] + gyro_angles[0])
+        + (1 - alpha_) * acc_angles[0];
+    euler_angles_[1] = alpha_ * (euler_angles_[1] + gyro_angles[1])
+        + (1 - alpha_) * acc_angles[1];
+    euler_angles_[2] = euler_angles_[2] + gyro_angles[2];
+
+    Eigen::Quaterniond q = Eigen::AngleAxisd(euler_angles_[0], Eigen::Vector3d::UnitX())
+        * Eigen::AngleAxisd(euler_angles_[1], Eigen::Vector3d::UnitY())
+        * Eigen::AngleAxisd(euler_angles_[2], Eigen::Vector3d::UnitZ());
+
+    publishImuMsg(accelerometer_data_, gyroscope_data_, q);
 }
 
 void ComplementaryFilter::margCallback(const oriens_msgs::msg::Marg::SharedPtr msg) {
