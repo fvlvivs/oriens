@@ -29,6 +29,9 @@
 Core::Core(const std::string &node_name, const rclcpp::NodeOptions &options)
     : Node(node_name, options) {
 
+  declare_parameter("sensor_type", "marg");
+  declare_parameter("input_topic", "marg/raw_data");
+  declare_parameter("output_topic", "marg/filtered_data");
   declare_parameter("accelerometer.bias.x", 0.0);
   declare_parameter("accelerometer.bias.y", 0.0);
   declare_parameter("accelerometer.bias.z", 0.0);

@@ -29,9 +29,6 @@ ComplementaryFilter::ComplementaryFilter(const std::string &node_name,
     this->declare_parameter("alpha", 0.98);
     this->declare_parameter("magnetometer_declination", 0.0);
     this->declare_parameter("magnetometer_negate_y", false);
-    this->declare_parameter("sensor_type", "marg");
-    this->declare_parameter("input_topic", "marg/raw_data");
-    this->declare_parameter("output_topic", "marg/complementary_filter");
 
     this->get_parameter("alpha", this->alpha_);
     this->get_parameter("magnetometer_declination", this->magnetometer_declination_);

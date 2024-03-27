@@ -1,8 +1,8 @@
 complementary_filter:
   ros__parameters:
     alpha: 0.93
-    sensor_type: marg
-    input_topic: /marg/data
-    output_topic: /marg/complementary_filter
+    sensor_type: "marg"
+    input_topic: "/marg/raw_data"
+    output_topic: "/marg/complementary_filter"
     magnetometer_declination: 0.0
     magnetometer_negate_y: false
