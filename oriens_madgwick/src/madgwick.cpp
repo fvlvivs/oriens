@@ -27,9 +27,6 @@ Madgwick::Madgwick(const std::string &node_name,
                    const rclcpp::NodeOptions &options)
     : Core(node_name, options) {
 
-  declare_parameter("sensor_type", rclcpp::PARAMETER_STRING);
-  declare_parameter("input_topic", rclcpp::PARAMETER_STRING);
-  declare_parameter("output_topic", rclcpp::PARAMETER_STRING);
   declare_parameter("mu", rclcpp::PARAMETER_DOUBLE);
   declare_parameter("gamma", rclcpp::PARAMETER_DOUBLE);
 
