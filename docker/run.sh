@@ -9,5 +9,4 @@ docker container run --rm \
 	--workdir /home/ros \
 	--volume="$HOME/proiecta/oriens_ws/:/home/ros" \
 	--volume=/dev:/dev \
-	--volume="$HOME/.config/helix/:/home/ros/.config/helix" \
-		$image
+	$image
