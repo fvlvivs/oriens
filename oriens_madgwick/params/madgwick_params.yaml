@@ -1,0 +1,7 @@
+madgwick_filter:
+  ros__parameters:
+    sensor_type: "marg"
+    input_topic: "/marg/raw_data"
+    output_topic: "/marg/madgwick"
+    mu: 0.7
+    gamma: 0.2

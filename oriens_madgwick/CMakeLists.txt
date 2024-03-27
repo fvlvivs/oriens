@@ -31,6 +31,7 @@ ament_target_dependencies(madgwick_filter ${dependencies})
 
 install(DIRECTORY include/ DESTINATION include/${PROJECT_NAME})
 install(TARGETS madgwick_filter DESTINATION lib/${PROJECT_NAME})
+install(DIRECTORY launch params DESTINATION share/${PROJECT_NAME})
 
 if(BUILD_TESTING)
   find_package(ament_lint_auto REQUIRED)
