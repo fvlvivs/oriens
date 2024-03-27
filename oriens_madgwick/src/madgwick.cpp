@@ -98,12 +98,8 @@ void Madgwick::imuCallback(const sensor_msgs::msg::Imu::SharedPtr msg) {
   q_est_prev_ = q_est_;
 
   publishImuMsg(accelerometer_data_, gyroscope_data_, q_est_);
-  // convert to euler
-  // Eigen::Vector3d euler = q_est_.toRotationMatrix().eulerAngles(0, 1, 2);
-  // RCLCPP_INFO(this->get_logger(), "roll: %f, pitch: %f, yaw: %f",
-  //             euler[0] * 180 / M_PI, euler[1] * 180 / M_PI,
-  //             euler[2] * 180 / M_PI);
 }
+
 void Madgwick::margCallback(const oriens_msgs::msg::Marg::SharedPtr msg) {
 
   updateSensors(msg);
@@ -155,12 +151,6 @@ void Madgwick::margCallback(const oriens_msgs::msg::Marg::SharedPtr msg) {
   q_est_prev_ = q_est_;
 
   publishMargMsg(accelerometer_data_, gyroscope_data_, magnetometer_data_, q_est_);
-
-  // convert to euler
-  Eigen::Vector3d euler = q_est_.toRotationMatrix().eulerAngles(0, 1, 2);
-  RCLCPP_INFO(this->get_logger(), "roll: %f, pitch: %f, yaw: %f",
-              euler[0] * 180 / M_PI, euler[1] * 180 / M_PI,
-              euler[2] * 180 / M_PI);
 }
 
 void Madgwick::orientationFromAngularRate(const Eigen::Quaterniond &quaternion,
@@ -198,7 +188,6 @@ void Madgwick::orientationFromVectorObservation(
   double dy = referece_field[1];
   double dz = referece_field[2];
 
-  // Eigen::Vector3d f = Eigen::Vector3d::Zero();
   cost_function(0) = 2 * dx * (0.5 - qy * qy - qz * qz) +
                      2 * dy * (qw * qz + qx * qy) +
                      2 * dz * (qx * qz - qw * qy) - sx;
@@ -209,7 +198,6 @@ void Madgwick::orientationFromVectorObservation(
                      2 * dy * (qy * qz - qw * qx) +
                      2 * dz * (0.5 - qx * qx - qy * qy) - sz;
 
-  // Eigen::Matrix<double, 3, 4> J = Eigen::Matrix<double, 3, 4>::Zero();
   jacobian(0, 0) = 2 * dy * qz - 2 * dz * qy;
   jacobian(0, 1) = 2 * dy * qy + 2 * dz * qz;
   jacobian(0, 2) = -4 * dx * qy + 2 * dy * qx - 2 * dz * qw;
