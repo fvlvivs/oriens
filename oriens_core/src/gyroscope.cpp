@@ -26,3 +26,9 @@
 Gyroscope::Gyroscope() {
     // TODO
 }
+
+void Gyroscope::feedData(const double x, const double y, const double z) {
+    data_[0] = fabs(x) < state_th_ ? 0.0 : x;
+    data_[1] = fabs(y) < state_th_ ? 0.0 : y;
+    data_[2] = fabs(z) < state_th_ ? 0.0 : z;
+}

@@ -31,8 +31,11 @@ class Gyroscope : public Sensor {
 public:
     Gyroscope();
     ~Gyroscope() = default;
+    void setStateThreshold(double th) { state_th_ = th; }
+    void feedData(const double x, const double y, const double z);
 
 private:
+    double state_th_ {0.0};
 
 };
 
