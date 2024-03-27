@@ -4,8 +4,8 @@
   <name>oriens_support</name>
   <version>0.0.0</version>
   <description>TODO: Package description</description>
-  <maintainer email="ros@todo.todo">ros</maintainer>
-  <license>TODO: License declaration</license>
+  <maintainer email="fulvio.diluzio@gmail.com">ros</maintainer>
+  <license>MIT</license>
 
   <depend>rclcpp</depend>
   <depend>sensor_msgs</depend>
