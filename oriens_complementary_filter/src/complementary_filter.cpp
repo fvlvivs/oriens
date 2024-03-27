@@ -29,17 +29,34 @@ ComplementaryFilter::ComplementaryFilter(const std::string &node_name,
     this->declare_parameter("alpha", 0.98);
     this->declare_parameter("magnetometer_declination", 0.0);
     this->declare_parameter("magnetometer_negate_y", false);
+    this->declare_parameter("sensor_type", "marg");
+    this->declare_parameter("input_topic", "marg/raw_data");
+    this->declare_parameter("output_topic", "marg/complementary_filter");
 
     this->get_parameter("alpha", this->alpha_);
     this->get_parameter("magnetometer_declination", this->magnetometer_declination_);
     this->get_parameter("magnetometer_negate_y", this->magnetometer_negate_y_);
 
-    std::string sensor_type = "marg";
-    auto callback = std::bind(&ComplementaryFilter::margCallback, this, std::placeholders::_1);
-    initialiseAsMarg(
-        "marg/raw_data", 
-        "marg/orientation", 
-        callback);
+    std::string sensor_type, input_topic, output_topic;
+    this->get_parameter("sensor_type", sensor_type);
+    this->get_parameter("input_topic", input_topic);
+    this->get_parameter("output_topic", output_topic);
+
+    if (sensor_type == "imu") {
+        auto callback = std::bind(&ComplementaryFilter::imuCallback, this, std::placeholders::_1);
+        initialiseAsImu(
+            input_topic,
+            output_topic,
+            callback);
+    } else if (sensor_type == "marg") {
+        auto callback = std::bind(&ComplementaryFilter::margCallback, this, std::placeholders::_1);
+        initialiseAsMarg(
+            input_topic,
+            output_topic,
+            callback);
+    } else {
+        RCLCPP_ERROR(get_logger(), "Invalid sensor type");
+    }
 
     RCLCPP_INFO(get_logger(), "Complementary Filter Node (%s) has been created", sensor_type.c_str());    
 }
