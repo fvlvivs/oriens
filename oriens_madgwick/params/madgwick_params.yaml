@@ -5,3 +5,11 @@ madgwick_filter:
     output_topic: "/marg/madgwick"
     mu: 0.7
     gamma: 0.2
+    gravity_reference_field:
+      x: 0.0
+      y: 0.0
+      z: 1.0
+    magnetic_reference_field:
+      x: 1.0
+      y: 0.0
+      z: 1.0

@@ -29,6 +29,12 @@ Madgwick::Madgwick(const std::string &node_name,
 
   declare_parameter("mu", rclcpp::PARAMETER_DOUBLE);
   declare_parameter("gamma", rclcpp::PARAMETER_DOUBLE);
+  declare_parameter("gravity_reference_field.x", 0.0);
+  declare_parameter("gravity_reference_field.y", 0.0);
+  declare_parameter("gravity_reference_field.z", 1.0);
+  declare_parameter("magnetic_reference_field.x", 1.0);
+  declare_parameter("magnetic_reference_field.y", 0.0);
+  declare_parameter("magnetic_reference_field.z", 1.0);
 
   q_est_ = Eigen::Quaterniond::Identity();
   q_est_prev_ = Eigen::Quaterniond::Identity();
@@ -41,6 +47,12 @@ Madgwick::Madgwick(const std::string &node_name,
   get_parameter("output_topic", output_topic);
   get_parameter("mu", mu_);
   get_parameter("gamma", gamma_);
+  get_parameter("gravity_reference_field.x", gravity_reference_field_[0]);
+  get_parameter("gravity_reference_field.y", gravity_reference_field_[1]);
+  get_parameter("gravity_reference_field.z", gravity_reference_field_[2]);
+  get_parameter("magnetic_reference_field.x", magnetic_reference_field_[0]);
+  get_parameter("magnetic_reference_field.y", magnetic_reference_field_[1]);
+  get_parameter("magnetic_reference_field.z", magnetic_reference_field_[2]);
 
   if (sensor_type == "imu") {
     auto callback =
