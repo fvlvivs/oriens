@@ -5,11 +5,33 @@ if(CMAKE_COMPILER_IS_GNUCXX OR CMAKE_CXX_COMPILER_ID MATCHES "Clang")
   add_compile_options(-Wall -Wextra -Wpedantic)
 endif()
 
-# find dependencies
+set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
+
 find_package(ament_cmake REQUIRED)
-# uncomment the following section in order to fill in
-# further dependencies manually.
-# find_package(<dependency> REQUIRED)
+find_package(rclcpp REQUIRED)
+find_package(Eigen3 REQUIRED)
+find_package(oriens_core REQUIRED)
+find_package(oriens_msgs REQUIRED)
+
+set(dependencies
+  rclcpp
+  Eigen3
+  oriens_core
+  oriens_msgs
+)
+
+include_directories(include)
+
+add_executable(kalman_filter
+  src/kalman.cpp
+  src/kalman_node.cpp
+)
+
+ament_target_dependencies(kalman_filter ${dependencies})
+
+install(DIRECTORY include/ DESTINATION include/${PROJECT_NAME})
+install(TARGETS kalman_filter DESTINATION lib/${PROJECT_NAME})
+# install(DIRECTORY launch params DESTINATION share/${PROJECT_NAME})
 
 if(BUILD_TESTING)
   find_package(ament_lint_auto REQUIRED)
