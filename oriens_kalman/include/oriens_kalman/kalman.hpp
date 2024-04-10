@@ -34,5 +34,6 @@ public:
 private:
   void imuCallback(const sensor_msgs::msg::Imu::SharedPtr) override {};
   void margCallback(const oriens_msgs::msg::Marg::SharedPtr) override {};
+  Eigen::Matrix4d makeSkewMatrix();
 
-};
+ };

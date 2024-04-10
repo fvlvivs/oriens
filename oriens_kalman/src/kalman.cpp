@@ -28,3 +28,14 @@ Kalman::Kalman(const std::string &node_name,
     : Core(node_name, options) {
 
 }
+
+Eigen::Matrix4d Kalman::makeSkewMatrix() {
+   Eigen::Matrix4d omega = Eigen::Matrix4d::Zero();
+
+   omega.row(0) << 0.0, -gyroscope_.z(), gyroscope_.y(), gyroscope_.x();
+   omega.row(1) << gyroscope_.z(), 0.0, -gyroscope_.x(), gyroscope_.y();
+   omega.row(2) << -gyroscope_.y(), gyroscope_.x(), 0.0, gyroscope_.z();
+   omega.row(3) << -gyroscope_.x(), -gyroscope_.y(), -gyroscope_.z(), 0.0;
+
+  return omega;
+}
